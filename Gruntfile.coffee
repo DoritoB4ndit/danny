@@ -11,24 +11,19 @@ module.exports = (grunt) ->
 	
 	appConfig =
 		app: require('./bower.json').appPath or 'app'
-		
+	
 	# Initialize the configuration.
-    grunt.initConfig
+	grunt.initConfig
 		connect: 
 			options:
 				port: 9000,
 				hostname: '0.0.0.0'
 				livereload: 35729
 			livereload:
-			  options:
-				open: true
-				middleware: (connect) ->
-					[
-						connect.static('.tmp'),
-						connect().use '/bower_components', connect.static('./public/bower_components'),
-						connect().use '/css', connect.static('./public/css'),
-						connect.static appConfig.app
-					]
+				options:
+					keepalive: true
+					open: true
+					base: 'public'
 					
 		watch:
 			livereload:
@@ -36,6 +31,6 @@ module.exports = (grunt) ->
 					livereload: '<%= connect.options.livereload %>'
 				
 	grunt.registerTask 'serve', 'Compile then start a connect web server', ->
-		grunt.task.run
-			'connect:livereload',
-			'watch'
+		grunt.task.run [
+			'connect:livereload'
+		]
