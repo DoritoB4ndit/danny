@@ -24,7 +24,6 @@ module.exports = (grunt) ->
 				livereload: 35729
 			livereload:
 				options:
-					keepalive: true
 					open: true
 					base: 'public'
 					
