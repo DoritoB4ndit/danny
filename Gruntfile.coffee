@@ -60,6 +60,19 @@ module.exports = (grunt) ->
 					/common\/.*\.css/,
 					/modernizr.js/
 				]
+					
+		assemble:
+			options:
+				flatten: true
+				layout: 'index.hbs'
+				layoutdir: '<%= appConfig.app %>/templates/layouts'
+				partials: ['<%= appConfig.app %>/templates/partials/*.hbs']
+				assets: '<%= appConfig.app %>/images'
+				
+			public:
+				files:
+					'<%= appConfig.app %>/':'<%= appConfig.app %>/templates/pages/*.hbs'
+				
 				
 		injector:
 			scripts:
@@ -71,7 +84,7 @@ module.exports = (grunt) ->
 					starttag: '<!-- injector:js -->'
 					endtag: '<!-- endinjector -->'
 				files:
-					'<%= appConfig.app %>/index.html': [
+					'<%= appConfig.app %>/templates/partials/footer.hbs': [
 						'{.tmp,<%= appConfig.app %>}/js/**/*.js',
 						'!{.tmp,<%= appConfig.app %>}/js/main.js',
 						'!{.tmp,<%= appConfig.app %>}/js/**/*.spec.js',
@@ -100,7 +113,7 @@ module.exports = (grunt) ->
 					starttag: '<!-- injector:css -->'
 					endtag: '<!-- endinjector -->'
 				files:
-					'<%= appConfig.app %>/index.html': [
+					'<%= appConfig.app %>/templates/partials/header.hbs': [
 						'{.tmp,<%= appConfig.app %>}/css/**/*.css',
 						'!{.tmp,<%= appConfig.app %>}/css/normalize{,.min}.css'
 					]
@@ -122,6 +135,9 @@ module.exports = (grunt) ->
 			coffee:
 				files: ['<%= appConfig.app %>/coffee/**/*.coffee']
 				tasks: ['coffee']
+			assemble:
+				files: '<%= appConfig.app %>/templates/**/*.hbs'
+				tasks: ['assemble']
 			livereload:
 				options:
 					livereload: '<%= connect.options.livereload %>'
