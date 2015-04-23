@@ -19,7 +19,10 @@
     "grunt-karma": "^0.10.1",
     "grunt-asset-injector": "^0.1.0",
     "assemble": "^0.4.42",
-    "grunt-assemble": "^0.2.0"
+    "grunt-assemble": "^0.2.0",
+    "grunt-svgmin": "^2.0.1",
+    "grunt-webfont": "^0.5.2",
+    "grunt-spritesmith": "^4.5.3"
   },
   "engines": {
     "node": ">=0.10.0"

@@ -117,6 +117,39 @@ module.exports = (grunt) ->
 						'{.tmp,<%= appConfig.app %>}/css/**/*.css',
 						'!{.tmp,<%= appConfig.app %>}/css/normalize{,.min}.css'
 					]
+						
+		svgmin:
+			options:
+				plugins: [
+					removeRasterImages: true
+				]
+			main:
+				files: [
+					expand: true,
+					cwd: '<%= appConfig.app %>/images/src/svg'
+					src: '*.svg'
+					dest: '<%= appConfig.app %>/images/dist/svg'
+					ext: '.svg'
+				]
+		
+		webfont:
+			main:
+				src: '<%= appConfig.app %>/images/dist/svg/*.svg'
+				dest: '<%= appConfig.app %>/fonts/'
+				templateOptions:
+					baseClass: 'd-glyphicon'
+					classPrefix: 'd-glyphicon-'
+					mixinPrefix: 'dGlyphicon-'
+					
+		sprite:
+			main:
+				src: '<%= appConfig.app %>/images/sprites/*.png'
+				retinaSrcFilter: '<%= appConfig.app %>/images/sprites/*-2x.png'
+				dest: '<%= appConfig.app %>/images/spritesheet.png'
+				retinaDest: '<%= appConfig.app %>/images/spritesheet-2x.png'
+				imgPath: 'images/spritesheet.png'
+				retinaImgPath: 'images/spritesheet-2x.png'
+				destCss: '<%= appConfig.app %>/less/spritesmith/sprites.less'
 		watch:
 			bower:
 				files: ['bower.json']
