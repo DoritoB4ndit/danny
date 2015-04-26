@@ -10,7 +10,7 @@ module.exports = (grunt) ->
 	require('time-grunt')(grunt)
 	
 	appConfig =
-		app: require('./bower.json').appPath or 'public'
+		app: require('./bower.json').appPath or 'app'
 	
 	# Initialize the configuration.
 	grunt.initConfig
@@ -25,7 +25,7 @@ module.exports = (grunt) ->
 			livereload:
 				options:
 					open: true
-					base: 'public'
+					base: 'app'
 					
 		less:
 			options:
@@ -69,7 +69,7 @@ module.exports = (grunt) ->
 				partials: ['<%= appConfig.app %>/templates/partials/*.hbs']
 				assets: '<%= appConfig.app %>/images'
 				
-			public:
+			app:
 				files:
 					'<%= appConfig.app %>/':'<%= appConfig.app %>/templates/pages/*.hbs'
 				
@@ -78,44 +78,42 @@ module.exports = (grunt) ->
 			scripts:
 				options:
 					transform: (filePath) ->
-						filePath = filePath.replace '/public/', ''
-						filePath = filePath.replace '/.tmp/', ''
+						filePath = filePath.replace '/app/', ''
 						"<script src=\"#{filePath}\"></script>"
 					starttag: '<!-- injector:js -->'
 					endtag: '<!-- endinjector -->'
 				files:
 					'<%= appConfig.app %>/templates/partials/footer.hbs': [
-						'{.tmp,<%= appConfig.app %>}/js/**/*.js',
-						'!{.tmp,<%= appConfig.app %>}/js/main.js',
-						'!{.tmp,<%= appConfig.app %>}/js/**/*.spec.js',
-						'!{.tmp,<%= appConfig.app %>}/js/**/*.mock.js'
+						'<%= appConfig.app %>/js/**/*.js',
+						'!<%= appConfig.app %>/js/main.js',
+						'!<%= appConfig.app %>/js/**/*.spec.js',
+						'!<%= appConfig.app %>/js/**/*.mock.js'
 					]
 						
 			less:
 				options:
 					transform: (filePath) ->
-						filePath = filePath.replace '/public/less/', ''
+						filePath = filePath.replace '/app/less/', ''
 						"@import '#{filePath}';"
 					starttag: '// injector'
 					endtag: '// endinjector'
 				files:
 					'<%= appConfig.app %>/less/main.less': [
-						'{.tmp,<%= appConfig.app %>}/less/**/*.less',
-						'!{.tmp,<%= appConfig.app %>}/less/main.less'
+						'<%= appConfig.app %>/less/**/*.less',
+						'!<%= appConfig.app %>/less/main.less'
 					]
 			
 			css:
 				options:
 					transform: (filePath) ->
-						filePath = filePath.replace '/public/', ''
-						filePath = filePath.replace '/.tmp/', ''
+						filePath = filePath.replace '/app/', ''
 						"<link rel=\"stylesheet\" href=\"#{filePath}\">"
 					starttag: '<!-- injector:css -->'
 					endtag: '<!-- endinjector -->'
 				files:
 					'<%= appConfig.app %>/templates/partials/header.hbs': [
-						'{.tmp,<%= appConfig.app %>}/css/**/*.css',
-						'!{.tmp,<%= appConfig.app %>}/css/normalize{,.min}.css'
+						'<%= appConfig.app %>/css/**/*.css',
+						'!<%= appConfig.app %>/css/normalize{,.min}.css'
 					]
 						
 		svgmin:
@@ -176,7 +174,7 @@ module.exports = (grunt) ->
 					livereload: '<%= connect.options.livereload %>'
 				files: [
 					'<%= appConfig.app %>/{,*/}*.html',
-					'.tmp/css/{,*/}*.css',
+					'<%= appConfig.app %>/css/{,*/}*.css',
 					'<%= appConfig.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
 				]
 		
@@ -187,6 +185,9 @@ module.exports = (grunt) ->
 			'injector',
 			'less',
 			'coffee',
+			'svgmin',
+			'webfont',
+			'sprite',
 			'connect:livereload',
 			'watch'
 		]
