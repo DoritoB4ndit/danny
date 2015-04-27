@@ -19,6 +19,6 @@
     "modernizr": "~2.8.3",
     "normalize.css": "~3.0.3"
   },
-  "appPath": "public",
+  "appPath": "app",
   "moduleName": "dannyApp"
 }
